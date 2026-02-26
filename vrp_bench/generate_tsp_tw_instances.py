@@ -18,8 +18,8 @@ from constants import MAP_SIZE, NUM_INSTANCES, PAPER_SEED, REALIZATIONS_PER_MAP
 from real_twcvrp import generate_time_window
 from travel_time_generator import get_distances, sample_travel_time
 
-# Same sizes as paper datasets (use [10, 20, 50] for quick test)
-SIZES = [10, 20, 50]
+# Node sizes: 10, 20, 30, 40, 50 (15 instances each for local run)
+SIZES = [10, 20, 30, 40, 50]
 
 
 def get_time_matrix(n_nodes: int, travel_times: Dict) -> np.ndarray:
@@ -84,8 +84,11 @@ def generate_tsp_tw_dataset(
     num_cities: int = None,
     precision=np.float64,
     use_paper_time_ratio: bool = True,
+    num_instances: int = None,
 ) -> Dict:
     """Generate a dataset of TSP-TW instances (same structure as TWCVRP for vrp_base)."""
+    if num_instances is None:
+        num_instances = NUM_INSTANCES
     num_cities = num_cities if num_cities else max(1, num_customers // 50)
     num_depots = 1
     n_nodes = num_customers + num_depots
@@ -103,7 +106,7 @@ def generate_tsp_tw_dataset(
         "num_depots": num_depots,
     }
     instance = None
-    for _ in tqdm(range(NUM_INSTANCES), desc=f"TSP-TW n={num_customers}"):
+    for _ in tqdm(range(num_instances), desc=f"TSP-TW n={num_customers}"):
         #make new map or change noise from existing map
         if _ % REALIZATIONS_PER_MAP == 0:
             instance = generate_tsp_tw_instance(

@@ -32,13 +32,13 @@ def main(tsptw_run=None):
     np.random.seed(PAPER_SEED)
     random.seed(PAPER_SEED)
 
-    # Paper protocol: 10 instances per config, 1 stochastic realization (fixed for experiments)
+    # Local run: node sizes 10, 20, 30, 40, 50; 15 instances each; 1 realization
     config = {
         "base_path": os.path.join(os.path.dirname(__file__), "data") + os.sep,
-        "test_sizes": [10, 20, 50],  # quick test; full: [10, 20, 50, 100, 200, 500, 1000]
-        "max_instances_per_file": 10,
+        "test_sizes": [10, 20, 30, 40, 50],
+        "max_instances_per_file": 15,
         "num_realizations": 1,
-        "use_paper_protocol": True,
+        "use_paper_protocol": False,
     }
     start_time = time.time()
     run_timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

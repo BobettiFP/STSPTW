@@ -30,6 +30,12 @@ def main():
         default="npz",
         help="Dataset format when generating: npz or torch (default: npz)",
     )
+    parser.add_argument(
+        "--num-instances",
+        type=int,
+        default=15,
+        help="Number of instances per node size (default: 15)",
+    )
     args = parser.parse_args()
 
     np.random.seed(PAPER_SEED)
@@ -42,7 +48,7 @@ def main():
     if not args.skip_generate:
         print("Step 1: Generating TSP-TW datasets (seed={})...".format(PAPER_SEED))
         from generate_tsp_tw_instances import main as generate_tsptw_main
-        tsptw_run = generate_tsptw_main(format=args.format)
+        tsptw_run = generate_tsptw_main(format=args.format, num_instances=args.num_instances)
         print("Dataset generation done.\n")
     else:
         if not os.path.isdir(tsp_tw_dir):

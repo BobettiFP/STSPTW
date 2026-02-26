@@ -488,24 +488,24 @@ class VRPSolverBase(ABC):
                     # Add demand
                     if node < len(demands):
                         route_demand += demands[node]
-                    
-                    # Check if customer has appeared
-                    if node in appear_times:
-                        if current_time < appear_times[node]:
-                            appear_time_violations += 1
                 
-                # Update current time
+                # Update current time (arrival at this node)
                 if i > 0:
                     prev_node = route[i-1]
                     # Use sample_travel_time for stochastic routing
                     travel_time = sample_travel_time(prev_node, node, self.distance_dicts[instance_idx], current_time)
                     current_time += travel_time
                 
+                # Check if customer has appeared (use arrival time at this node)
+                if node in appear_times and node not in depots:
+                    if current_time < appear_times[node]:
+                        appear_time_violations += 1
+                
                 # Check time windows if available
                 if node in time_windows and node not in depots:
                     start_time, end_time = time_windows[node]
                     
-                    # Normalize time
+                    # Normalize time (same day wrap)
                     current_time = current_time % 1440
                     
                     # Check violation

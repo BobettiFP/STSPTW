@@ -96,8 +96,11 @@ class NN2optSolver(VRPSolverBase):
             routes, instance_idx, num_realizations
         )
         
-        # Check feasibility with detailed time constraint checking
-        cvr, feasibility, tw_violations = self._check_feasibility_debug(routes, instance_idx)
+        # Use base class _check_feasibility for CVR so all solvers share the same definition (fair comparison)
+        cvr, feasibility, tw_violations = self._check_feasibility(routes, instance_idx)
+        if self.debug:
+            _cvr_dbg, _feas_dbg, _ = self._check_feasibility_debug(routes, instance_idx)
+            print(f"  [debug] CVR (base): {cvr:.2f}%, CVR (debug): {_cvr_dbg:.2f}%")
         
         return {
             'total_cost': total_cost,
@@ -218,7 +221,8 @@ class NN2optSolver(VRPSolverBase):
         else:
             cvr = 0.0 if total_violations == 0 else 100.0
         
-        feasibility = max(0.0, 1.0 - (total_violations / len(customers)))
+        # Binary feasibility (same as vrp_base): 1 if no violations, 0 otherwise
+        feasibility = 1.0 if total_violations == 0 else 0.0
         
         if self.debug:
             print(f"CVR: {cvr}%")
