@@ -2,12 +2,14 @@
 #SBATCH --job-name=tsptw-eval
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --time=04:00:00
+#SBATCH --time=24:00:00
 #SBATCH --output=tsptw_eval_%j.out
 #SBATCH --error=tsptw_eval_%j.err
 #
 # Trillium CPU: run TSP-TW generate + evaluate.
-# Submit from repo root: sbatch vrp_bench/run_tsptw_slurm.sh
+# Submit from repo root: sbatch vrp_bench/run_tsptw_slurm.sh [options]
+# Example (single size): sbatch vrp_bench/run_tsptw_slurm.sh --sizes 10000
+# Example (multiple):   sbatch vrp_bench/run_tsptw_slurm.sh --sizes 10 20 50
 # Output/error go to submission directory. Results: vrp_bench/eval_results/<timestamp>/, vrp_bench/data/tsp_tw/<timestamp>/
 
 set -e
@@ -39,4 +41,5 @@ if ! python -m pip install --user -r "$REQ" --quiet 2>/dev/null; then
   exit 1
 fi
 
-python main.py
+# Pass through args (e.g. --sizes 10000 or --sizes 10 20 50)
+python main.py "$@"

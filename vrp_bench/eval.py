@@ -13,8 +13,9 @@ from or_tools_solver import ORToolsSolver, OR_TOOLS_AVAILABLE
 from vrp_evaluation import VRPEvaluator
 
 
-def main(tsptw_run=None):
-    """Main function for VRP solver evaluation with comprehensive LaTeX table generation."""
+def main(tsptw_run=None, sizes=None):
+    """Main function for VRP solver evaluation with comprehensive LaTeX table generation.
+    sizes: list of node sizes to evaluate (default [10, 20, 30, 40, 50])."""
     print("=" * 80)
     print("REALISTIC VRP SOLVER TESTING - NN+2OPT, TABU SEARCH, ACO, AND OR-TOOLS")
     print("=" * 80)
@@ -32,10 +33,12 @@ def main(tsptw_run=None):
     np.random.seed(PAPER_SEED)
     random.seed(PAPER_SEED)
 
-    # Local run: node sizes 10, 20, 30, 40, 50; 15 instances each; 1 realization
+    # Local run: node sizes from sizes arg or default 10, 20, 30, 40, 50; 15 instances each; 1 realization
+    if sizes is None:
+        sizes = [10, 20, 30, 40, 50]
     config = {
         "base_path": os.path.join(os.path.dirname(__file__), "data") + os.sep,
-        "test_sizes": [10, 20, 30, 40, 50],
+        "test_sizes": sizes,
         "max_instances_per_file": 15,
         "num_realizations": 1,
         "use_paper_protocol": False,

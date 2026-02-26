@@ -8,7 +8,7 @@ import argparse
 import os
 import random
 from datetime import datetime
-from typing import Dict
+from typing import Dict, List, Union
 
 import numpy as np
 from tqdm import tqdm
@@ -20,6 +20,15 @@ from travel_time_generator import get_distances, sample_travel_time
 
 # Node sizes: 10, 20, 30, 40, 50 (15 instances each for local run)
 SIZES = [10, 20, 30, 40, 50]
+
+
+def _normalize_sizes(sizes: Union[int, List[int], None]) -> List[int]:
+    """Return a list of node sizes. int -> [int], list -> list, None -> SIZES."""
+    if sizes is None:
+        return SIZES
+    if isinstance(sizes, int):
+        return [sizes]
+    return list(sizes)
 
 
 def get_time_matrix(n_nodes: int, travel_times: Dict) -> np.ndarray:
@@ -136,8 +145,9 @@ def generate_tsp_tw_dataset(
     return {k: np.array(v, dtype=object) for k, v in dataset.items()}
 
 
-def main(format: str = None):
-    """Generate TSP-TW datasets. format: 'npz' | 'torch' (default from --format or 'npz')."""
+def main(format: str = None, num_instances: int = None, sizes: Union[int, List[int], None] = None):
+    """Generate TSP-TW datasets. format: 'npz' | 'torch' (default from --format or 'npz').
+    sizes: single int or list of node sizes (num_customers); default SIZES when None."""
     if format is None:
         parser = argparse.ArgumentParser(description="Generate TSP-TW datasets (npz or PyTorch format)")
         parser.add_argument(
@@ -146,8 +156,26 @@ def main(format: str = None):
             default="npz",
             help="Output format: npz (numpy compressed) or torch (PyTorch tensors). Default: npz",
         )
+        parser.add_argument(
+            "--num-instances",
+            type=int,
+            default=None,
+            help="Number of instances per node size (default from constants.NUM_INSTANCES)",
+        )
+        parser.add_argument(
+            "--sizes",
+            type=int,
+            nargs="*",
+            default=None,
+            help="Node sizes as one or more integers (e.g. 10000 or 10 20 50). Default: 10,20,30,40,50",
+        )
         args = parser.parse_args()
         format = args.format
+        if num_instances is None:
+            num_instances = args.num_instances
+        if sizes is None and args.sizes is not None:
+            sizes = args.sizes if len(args.sizes) > 0 else None
+    size_list = _normalize_sizes(sizes)
     use_torch = format == "torch"
     ext = "pt" if use_torch else "npz"
 
@@ -156,14 +184,16 @@ def main(format: str = None):
     run_timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     base = os.path.join(os.path.dirname(__file__), "data", "tsp_tw", run_timestamp)
     os.makedirs(base, exist_ok=True)
-    for num_customers in SIZES:
-        dataset = generate_tsp_tw_dataset(num_customers, use_paper_time_ratio=True)
+    for num_customers in size_list:
+        n_inst = num_instances if num_instances is not None else NUM_INSTANCES
+        dataset = generate_tsp_tw_dataset(num_customers, use_paper_time_ratio=True, num_instances=n_inst)
         path = os.path.join(base, f"tsp_tw_{num_customers}.{ext}")
         if use_torch:
             save_dataset_torch(dataset, path)
         else:
             save_dataset(dataset, path)
-    print(f"Done. TSP-TW datasets written under {base} ({NUM_INSTANCES} instances per file, format={format}).")
+    n_inst = num_instances if num_instances is not None else NUM_INSTANCES
+    print(f"Done. TSP-TW datasets written under {base} (sizes={size_list}, {n_inst} instances per file, format={format}).")
     return run_timestamp
 
 

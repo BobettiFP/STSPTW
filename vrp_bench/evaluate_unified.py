@@ -563,15 +563,19 @@ def print_final_comparison(results: Dict) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
-def main(run: Optional[str] = None, format: Optional[str] = None):
+def main(run: Optional[str] = None, format: Optional[str] = None, sizes: Optional[List[int]] = None):
     import random
     parser = argparse.ArgumentParser(description="Unified TSP-TW evaluation (npz or torch format)")
     parser.add_argument("--format", choices=["npz", "torch"], default="npz", help="Dataset format: npz or torch")
     parser.add_argument("--run", type=str, default=None, help="TSP-TW run timestamp (e.g. 2026-02-23_15-38-58); default: latest")
     parser.add_argument("--sizes", type=int, nargs="+", default=[10, 20, 50], help="Instance sizes to evaluate")
-    # Allow programmatic call: main(run=..., format=...) without parsing argv
-    if run is not None or format is not None:
-        args = argparse.Namespace(format=format or "npz", run=run, sizes=[10, 20, 50])
+    # Allow programmatic call: main(run=..., format=..., sizes=...) without parsing argv
+    if run is not None or format is not None or sizes is not None:
+        args = argparse.Namespace(
+            format=format or "npz",
+            run=run,
+            sizes=sizes if sizes is not None else [10, 20, 50],
+        )
     else:
         args = parser.parse_args()
 

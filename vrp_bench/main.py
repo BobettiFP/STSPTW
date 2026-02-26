@@ -36,7 +36,15 @@ def main():
         default=15,
         help="Number of instances per node size (default: 15)",
     )
+    parser.add_argument(
+        "--sizes",
+        type=int,
+        nargs="*",
+        default=None,
+        help="Node sizes: one int (e.g. 10000) or list (e.g. 10 20 50). Default: 10,20,30,40,50",
+    )
     args = parser.parse_args()
+    sizes = args.sizes if args.sizes else [10, 20, 30, 40, 50]
 
     np.random.seed(PAPER_SEED)
     random.seed(PAPER_SEED)
@@ -46,9 +54,9 @@ def main():
     tsptw_run = None
 
     if not args.skip_generate:
-        print("Step 1: Generating TSP-TW datasets (seed={})...".format(PAPER_SEED))
+        print("Step 1: Generating TSP-TW datasets (seed={}, sizes={})...".format(PAPER_SEED, sizes))
         from generate_tsp_tw_instances import main as generate_tsptw_main
-        tsptw_run = generate_tsptw_main(format=args.format, num_instances=args.num_instances)
+        tsptw_run = generate_tsptw_main(format=args.format, num_instances=args.num_instances, sizes=sizes)
         print("Dataset generation done.\n")
     else:
         if not os.path.isdir(tsp_tw_dir):
@@ -64,10 +72,10 @@ def main():
     print("Step 2: Running evaluation (paper protocol: 10 instances, 1 realization)...")
     if args.format == "torch":
         from evaluate_unified import main as evaluate_main
-        evaluate_main(run=tsptw_run, format="torch")
+        evaluate_main(run=tsptw_run, format="torch", sizes=sizes)
     else:
         from eval import main as eval_main
-        eval_main(tsptw_run=tsptw_run)
+        eval_main(tsptw_run=tsptw_run, sizes=sizes)
 
 
 if __name__ == "__main__":
