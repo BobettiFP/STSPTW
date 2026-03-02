@@ -38,8 +38,18 @@ if ! python -m pip install --user -r "$REQ" --quiet 2>/dev/null; then
 fi
 
 FORMAT="${1:-npz}"
+SIZES="${SIZES:-}"
+
 if [ -n "${RUN:-}" ]; then
-  python evaluate_unified.py --format "$FORMAT" --run "$RUN"
+  if [ -n "$SIZES" ]; then
+    python evaluate_unified.py --format "$FORMAT" --run "$RUN" --sizes $SIZES
+  else
+    python evaluate_unified.py --format "$FORMAT" --run "$RUN"
+  fi
 else
-  python evaluate_unified.py --format "$FORMAT"
+  if [ -n "$SIZES" ]; then
+    python evaluate_unified.py --format "$FORMAT" --sizes $SIZES
+  else
+    python evaluate_unified.py --format "$FORMAT"
+  fi
 fi
