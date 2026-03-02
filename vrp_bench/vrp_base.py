@@ -36,7 +36,7 @@ class VRPSolverBase(ABC):
         if self.appear_times is not None:
             self.appear_times = self._convert_inhomogeneous_array(self.appear_times)
         
-        # Handle time windows and time matrices for TWCVRP
+        # Handle time windows and time matrices
         self.time_windows = data.get('time_windows', None)
         self.time_matrix = data.get('time_matrix', None)
         self.use_deterministic_first_segment = data.get('use_deterministic_first_segment', False)
