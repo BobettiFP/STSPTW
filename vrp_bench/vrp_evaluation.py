@@ -76,6 +76,13 @@ class VRPEvaluator:
                         # Load data
                         data = np.load(data_path, allow_pickle=True)
                         data_dict = self._convert_to_dict(data)
+
+                        # For TSP-TW problems, ignore dynamic appear times completely
+                        # (all nodes are assumed to exist from time 0). Older datasets
+                        # may still include an 'appear_times' key; drop it so solvers
+                        # only enforce time-window constraints here.
+                        if problem_type == "tsp_tw":
+                            data_dict.pop("appear_times", None)
                         
                         # Limit instances for efficiency
                         limited_data = self._limit_instances(data_dict, actual_instances)

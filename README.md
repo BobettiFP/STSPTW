@@ -31,7 +31,7 @@ You can generate and evaluate with either format. Same solvers and metrics; only
 | **demands** | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` | `torch.Tensor` shape `(N, n_nodes)` dtype float64 |
 | **time_matrix** | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes, n_nodes)` | `torch.Tensor` shape `(N, n_nodes, n_nodes)` dtype float64 |
 | **time_windows** | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes, 2)` | `torch.Tensor` shape `(N, n_nodes, 2)` dtype float64 |
-| **appear_times** | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` | `torch.Tensor` shape `(N, n_nodes)` dtype float64 |
+| **appear_times** | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` *(optional; used for dynamic VRP variants, not for static TSP-TW in this repo)* | `torch.Tensor` shape `(N, n_nodes)` dtype float64 *(optional; TSP-TW datasets generated here omit this key and assume all nodes are available from time 0)* |
 | **num_vehicles** | `np.ndarray` shape `(N,)` dtype=object; each element int (e.g. 1) | `torch.Tensor` shape `(N,)` dtype int64 |
 | **vehicle_capacities** | `np.ndarray` shape `(N,)` dtype=object; each element list `[capacity]` (e.g. [1e9]) | `torch.Tensor` shape `(N,)` dtype int64 (capacity per instance) |
 | **travel_times** | `np.ndarray` shape `(N,)` dtype=object; each element dict `{(i,j): time}` | `list` of length N; each element dict `{(i,j): time}` |

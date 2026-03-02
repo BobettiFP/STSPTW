@@ -194,6 +194,11 @@ def evaluate_solver(
             else:
                 data = np.load(data_path, allow_pickle=True)
                 data_dict = _convert_npz_to_dict(data)
+
+            # TSP-TW: ignore dynamic appear times entirely (all nodes exist from time 0)
+            # Older datasets may still contain an 'appear_times' key; drop it before
+            # passing data to solvers so they operate purely with time windows.
+            data_dict.pop("appear_times", None)
             limited_data = _limit_instances(data_dict, max_instances_per_file)
             if _is_empty_dataset(limited_data):
                 continue

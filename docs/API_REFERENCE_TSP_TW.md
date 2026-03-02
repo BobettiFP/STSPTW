@@ -47,7 +47,7 @@ One TSP-TW instance as produced by [generate_tsp_tw_instance](../vrp_bench/gener
 | `vehicle_capacity` | `int` | 1e9 for TSP-TW |
 | `travel_times` | `dict` | `(i, j) -> float` travel time in minutes |
 | `time_windows` | `np.ndarray` shape `(n_nodes, 2)` | (start, end) in minutes from midnight; depot typically (0, 1440) |
-| `appear_time` | `np.ndarray` shape `(n_nodes,)` | When each node appears (0 for static) |
+| `appear_time` | `np.ndarray` shape `(n_nodes,)` | When each node appears (minutes from midnight). For static TSP-TW in this repo, this is `0` for all nodes and is used only internally during generation; solvers and evaluators ignore this field. |
 | `map_instance` | `Map` | [city.Map](../vrp_bench/city.py) used to build the instance |
 
 ### Dataset dict (batched)
@@ -60,7 +60,7 @@ Batched format passed to solvers and saved as npz or torch. Same keys for both f
 | `demands` | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` | `torch.Tensor` shape `(N, n_nodes)` dtype float64 |
 | `time_matrix` | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes, n_nodes)` | `torch.Tensor` shape `(N, n_nodes, n_nodes)` dtype float64 |
 | `time_windows` | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes, 2)` | `torch.Tensor` shape `(N, n_nodes, 2)` dtype float64 |
-| `appear_times` | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` | `torch.Tensor` shape `(N, n_nodes)` dtype float64 |
+| `appear_times` | `np.ndarray` shape `(N,)` dtype=object; each element shape `(n_nodes,)` *(optional; older static TSP-TW runs may include this key, but evaluation scripts drop it and treat all nodes as present from time 0)* | `torch.Tensor` shape `(N, n_nodes)` dtype float64 *(optional; current TSP-TW generation does not write this key; solvers ignore it if present)* |
 | `num_vehicles` | `np.ndarray` shape `(N,)` dtype=object; each element int (e.g. 1) | `torch.Tensor` shape `(N,)` dtype int64 |
 | `vehicle_capacities` | `np.ndarray` shape `(N,)` dtype=object; each element list `[capacity]` (e.g. [1e9]) | `torch.Tensor` shape `(N,)` dtype int64 (capacity per instance) |
 | `travel_times` | `np.ndarray` shape `(N,)` dtype=object; each element dict `{(i,j): time}` | `list` of length N; each element dict `{(i,j): time}` |

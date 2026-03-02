@@ -107,7 +107,6 @@ def generate_tsp_tw_dataset(
         "demands": [],
         "time_matrix": [],
         "time_windows": [],
-        "appear_times": [],
         "vehicle_capacities": [],
         "travel_times": [],
         "map_size": MAP_SIZE,
@@ -140,7 +139,6 @@ def generate_tsp_tw_dataset(
         time_matrix = get_time_matrix(n_nodes, instance["travel_times"])
         dataset["time_matrix"].append(time_matrix.astype(precision))
         dataset["time_windows"].append(instance["time_windows"].astype(precision))
-        dataset["appear_times"].append(instance["appear_time"])
         dataset["travel_times"].append(instance["travel_times"])
     return {k: np.array(v, dtype=object) for k, v in dataset.items()}
 
