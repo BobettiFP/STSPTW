@@ -361,4 +361,6 @@ def main():
         )
 
 if __name__ == "__main__":
-    main() 
+    main()
+
+# TSP-TW eval: use eval_tsptw.py (loads tsp_tw_*.pt, runs R-PIP-Constraint model). 

@@ -1,0 +1,38 @@
+[2026-03-03 00:28:05] utils.py(194) : >> Start STSPTW Training ...
+[2026-03-03 00:28:08] utils.py(194) : Number of Parameters: 1254144
+[2026-03-03 00:28:08] utils.py(194) : [copy_all_src] Warning: /scratch/hyegang/RL4Research/STSPTW/R-PIP-Constraint/POMO+PIP/_ops.py not found. Skipping.
+[2026-03-03 00:28:08] utils.py(194) : [copy_all_src] Warning: /scratch/hyegang/RL4Research/STSPTW/R-PIP-Constraint/POMO+PIP/_classes.py not found. Skipping.
+[2026-03-03 00:28:08] utils.py(194) : ================================================================================
+[2026-03-03 00:28:10] utils.py(194) : Epoch   1: Train (100%)  Score: 11.7487,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 37.3125, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:10] utils.py(194) : Epoch   1/ 10: Time Est.: Elapsed[0.03m], Remain[0.26m]
+[2026-03-03 00:28:10] utils.py(194) : >> Warning: Validation dataset not found at ../data/STSPTW/stsptw10_hard.pkl, skipping validation...
+[2026-03-03 00:28:10] utils.py(194) : ================================================================================
+[2026-03-03 00:28:11] utils.py(194) : Epoch   2: Train (100%)  Score: 11.7209,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 37.7542, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:11] utils.py(194) : Epoch   2/ 10: Time Est.: Elapsed[0.04m], Remain[0.14m]
+[2026-03-03 00:28:11] utils.py(194) : >> Best model saved!
+[2026-03-03 00:28:11] utils.py(194) : ================================================================================
+[2026-03-03 00:28:11] utils.py(194) : Epoch   3: Train (100%)  Score: 11.8021,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 37.6809, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:11] utils.py(194) : Epoch   3/ 10: Time Est.: Elapsed[0.04m], Remain[0.10m]
+[2026-03-03 00:28:11] utils.py(194) : ================================================================================
+[2026-03-03 00:28:11] utils.py(194) : Epoch   4: Train (100%)  Score: 11.7701,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 37.8047, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:11] utils.py(194) : Epoch   4/ 10: Time Est.: Elapsed[0.05m], Remain[0.08m]
+[2026-03-03 00:28:11] utils.py(194) : ================================================================================
+[2026-03-03 00:28:12] utils.py(194) : Epoch   5: Train (100%)  Score: 11.8959,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 38.5816, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:12] utils.py(194) : Epoch   5/ 10: Time Est.: Elapsed[0.06m], Remain[0.06m]
+[2026-03-03 00:28:12] utils.py(194) : ================================================================================
+[2026-03-03 00:28:12] utils.py(194) : Epoch   6: Train (100%)  Score: 11.7909,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 39.4723, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:12] utils.py(194) : Epoch   6/ 10: Time Est.: Elapsed[0.07m], Remain[0.04m]
+[2026-03-03 00:28:12] utils.py(194) : ================================================================================
+[2026-03-03 00:28:13] utils.py(194) : Epoch   7: Train (100%)  Score: 11.7448,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 38.2783, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:13] utils.py(194) : Epoch   7/ 10: Time Est.: Elapsed[0.07m], Remain[0.03m]
+[2026-03-03 00:28:13] utils.py(194) : ================================================================================
+[2026-03-03 00:28:13] utils.py(194) : Epoch   8: Train (100%)  Score: 11.8315,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 38.9497, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:13] utils.py(194) : Epoch   8/ 10: Time Est.: Elapsed[0.08m], Remain[0.02m]
+[2026-03-03 00:28:13] utils.py(194) : ================================================================================
+[2026-03-03 00:28:14] utils.py(194) : Epoch   9: Train (100%)  Score: 11.8633,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 38.6460, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:14] utils.py(194) : Epoch   9/ 10: Time Est.: Elapsed[0.09m], Remain[0.01m]
+[2026-03-03 00:28:14] utils.py(194) : ================================================================================
+[2026-03-03 00:28:14] utils.py(194) : Epoch  10: Train (100%)  Score: 11.8414,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 39.0647, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:28:14] utils.py(194) : Epoch  10/ 10: Time Est.: Elapsed[0.10m], Remain[0.00m]
+[2026-03-03 00:28:14] utils.py(194) : Saving trained_model
+[2026-03-03 00:28:14] utils.py(194) : >> Finish STSPTW Training ...

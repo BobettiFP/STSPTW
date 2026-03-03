@@ -1,0 +1,10 @@
+[2026-03-03 00:35:36] utils.py(194) : >> Start STSPTW Training ...
+[2026-03-03 00:35:37] utils.py(194) : Number of Parameters: 1254144
+[2026-03-03 00:35:37] utils.py(194) : [copy_all_src] Warning: /scratch/hyegang/RL4Research/STSPTW/R-PIP-Constraint/POMO+PIP/_ops.py not found. Skipping.
+[2026-03-03 00:35:37] utils.py(194) : [copy_all_src] Warning: /scratch/hyegang/RL4Research/STSPTW/R-PIP-Constraint/POMO+PIP/_classes.py not found. Skipping.
+[2026-03-03 00:35:37] utils.py(194) : ================================================================================
+[2026-03-03 00:35:37] utils.py(194) : Epoch   1: Train (100%)  Score: 11.7954,  Loss: 0.0000,  Infeasible_rate: [100.0000%, 100.0000%], Timeout: 36.2630, Timeout_nodes: 8, Feasible_dist: 0.0000
+[2026-03-03 00:35:37] utils.py(194) : Epoch   1/  1: Time Est.: Elapsed[0.01m], Remain[0.00m]
+[2026-03-03 00:35:37] utils.py(194) : Saving trained_model
+[2026-03-03 00:35:37] utils.py(194) : >> Warning: Validation dataset not found at ../data/STSPTW/stsptw10_hard.pkl, skipping validation...
+[2026-03-03 00:35:37] utils.py(194) : >> Finish STSPTW Training ...
