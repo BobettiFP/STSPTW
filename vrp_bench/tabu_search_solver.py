@@ -361,6 +361,8 @@ class TabuSearchSolver(VRPSolverBase):
                             moves.append(('swap', route_idx, pos1, pos2))
         
         elif move_type == 'relocate':
+            if len(routes) <= 1:
+                return moves
             # Relocate with feasibility checks
             for from_route in range(len(routes)):
                 customers_in_route = [node for node in routes[from_route] 
@@ -379,6 +381,8 @@ class TabuSearchSolver(VRPSolverBase):
                                 moves.append(('relocate', from_route, pos, to_route, insert_pos))
         
         elif move_type == 'exchange':
+            if len(routes) <= 1:
+                return moves
             # Exchange customers between routes
             for route1 in range(len(routes)):
                 for route2 in range(route1 + 1, len(routes)):

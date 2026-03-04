@@ -346,23 +346,41 @@ class NN2optSolver(VRPSolverBase):
             route.append(start_depot)
             routes.append(route)
         
-        # Create single-customer routes for remaining customers
-        # But only if they can be served respecting all constraints
-        while unvisited:
-            start_depot = depots[0] if len(depots) > 0 else 0
-            customer = unvisited.pop()
-            
-            # Check if this customer can be served at all
-            can_serve = True
-            
-            # Check appear time and time window
-            if customer in appear_times and customer in time_windows:
-                if appear_times[customer] > time_windows[customer][1]:
-                    can_serve = False  # Customer appears after their time window closes
-            
-            if can_serve:
+        # Handle remaining unvisited customers
+        if unvisited and len(routes) < num_vehicles:
+            # Multi-vehicle: create new routes up to the vehicle limit
+            while unvisited and len(routes) < num_vehicles:
+                start_depot = depots[0] if len(depots) > 0 else 0
+                customer = unvisited.pop()
                 routes.append([start_depot, customer, start_depot])
-            # If can't serve, leave unserved (will be counted as violation)
+
+        if unvisited and routes:
+            # Force-insert remaining customers into existing routes (respects num_vehicles)
+            for customer in list(unvisited):
+                best_route_idx = None
+                best_pos = None
+                best_cost = float('inf')
+
+                for r_idx, route in enumerate(routes):
+                    for pos in range(1, len(route)):
+                        prev_node = route[pos - 1]
+                        next_node = route[pos]
+                        cost_insert = (
+                            sample_travel_time(prev_node, customer, distance_dict, 0)
+                            + sample_travel_time(customer, next_node, distance_dict, 0)
+                            - sample_travel_time(prev_node, next_node, distance_dict, 0)
+                        )
+                        if cost_insert < best_cost:
+                            best_cost = cost_insert
+                            best_route_idx = r_idx
+                            best_pos = pos
+
+                if best_route_idx is not None:
+                    routes[best_route_idx].insert(best_pos, customer)
+                else:
+                    # Fallback: append before the return-to-depot of the last route
+                    routes[-1].insert(-1, customer)
+                unvisited.discard(customer)
         
         return routes
     

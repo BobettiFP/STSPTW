@@ -215,11 +215,38 @@ class ACOSolver(VRPSolverBase):
             route.append(start_depot)
             routes.append(route)
         
-        # Create single-customer routes for remaining unvisited customers
-        while unvisited:
-            start_depot = depots[0] if len(depots) > 0 else 0
-            customer = unvisited.pop()
-            routes.append([start_depot, customer, start_depot])
+        # Handle remaining unvisited customers
+        if unvisited and len(routes) < num_vehicles:
+            while unvisited and len(routes) < num_vehicles:
+                start_depot = depots[0] if len(depots) > 0 else 0
+                customer = unvisited.pop()
+                routes.append([start_depot, customer, start_depot])
+
+        if unvisited and routes:
+            for customer in list(unvisited):
+                best_route_idx = None
+                best_pos = None
+                best_cost = float('inf')
+
+                for r_idx, route in enumerate(routes):
+                    for pos in range(1, len(route)):
+                        prev_node = route[pos - 1]
+                        next_node = route[pos]
+                        cost_insert = (
+                            sample_travel_time(prev_node, customer, distance_dict, 0)
+                            + sample_travel_time(customer, next_node, distance_dict, 0)
+                            - sample_travel_time(prev_node, next_node, distance_dict, 0)
+                        )
+                        if cost_insert < best_cost:
+                            best_cost = cost_insert
+                            best_route_idx = r_idx
+                            best_pos = pos
+
+                if best_route_idx is not None:
+                    routes[best_route_idx].insert(best_pos, customer)
+                else:
+                    routes[-1].insert(-1, customer)
+                unvisited.discard(customer)
         
         return routes
     
