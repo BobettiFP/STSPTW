@@ -1,0 +1,43 @@
+{
+  "solver": "NN+2opt",
+  "overall": {
+    "total_cost": 937.0346986654715,
+    "waiting_time": 0.0,
+    "cvr": 0.0,
+    "feasibility": 1.0,
+    "runtime": 0.0007635116577148438,
+    "robustness": 0.0
+  },
+  "tsp_tw": {
+    "total_cost": 937.0346986654715,
+    "waiting_time": 0.0,
+    "cvr": 0.0,
+    "feasibility": 1.0,
+    "runtime": 0.0007635116577148438,
+    "robustness": 0.0
+  },
+  "by_size": {
+    "small": {
+      "feasibility": 1.0,
+      "cost": 937.0346986654715,
+      "cvr": 0.0,
+      "runtime": 0.0007635116577148438
+    }
+  },
+  "detailed": [
+    {
+      "problem": "tsp_tw_10",
+      "size": 10,
+      "type": "",
+      "metrics": {
+        "total_cost": 937.0346986654715,
+        "waiting_time": 0.0,
+        "cvr": 0.0,
+        "feasibility": 1.0,
+        "runtime": 0.0007635116577148438,
+        "robustness": 0.0
+      },
+      "problem_type": "tsp_tw"
+    }
+  ]
+}

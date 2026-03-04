@@ -58,6 +58,42 @@ def load_dataset(filename: str) -> Dict:
     return dict(np.load(filename, allow_pickle=True))
 
 
+def save_metadata(metadata: Dict, filename: str):
+    """Save TSP-TW metadata (reference_tours, time_windows, det_times, added_noise) to npz or pt."""
+    if filename.endswith(".pt"):
+        # Convert to torch-friendly format; reference_tours have same length per dataset
+        refs = np.stack([np.asarray(m, dtype=np.int64) for m in metadata["reference_tours"]], axis=0)
+        tw = np.stack([np.asarray(m) for m in metadata["time_windows"]], axis=0)
+        det = np.stack([np.asarray(m) for m in metadata["deterministic_travel_times"]], axis=0)
+        noise = np.stack([np.asarray(m) for m in metadata["added_noise"]], axis=0)
+        torch_dict = {
+            "reference_tours": torch.from_numpy(refs),
+            "time_windows": torch.from_numpy(tw.astype(np.float64)),
+            "deterministic_travel_times": torch.from_numpy(det.astype(np.float64)),
+            "added_noise": torch.from_numpy(noise.astype(np.float64)),
+        }
+        torch.save(torch_dict, filename)
+    else:
+        np.savez_compressed(filename, **metadata)
+
+
+def load_metadata(filename: str) -> Dict:
+    """Load TSP-TW metadata from npz or pt file."""
+    if filename.endswith(".pt"):
+        try:
+            data = torch.load(filename, map_location="cpu", weights_only=False)
+        except TypeError:
+            data = torch.load(filename, map_location="cpu")
+        out = {}
+        for k, v in data.items():
+            if isinstance(v, torch.Tensor):
+                out[k] = v.numpy()
+            else:
+                out[k] = v
+        return out
+    return dict(np.load(filename, allow_pickle=True))
+
+
 def _dataset_to_torch(dataset: Dict) -> Dict[str, Any]:
     """Convert dataset with numpy arrays to dict of tensors (and non-tensor fields)."""
     out = {}

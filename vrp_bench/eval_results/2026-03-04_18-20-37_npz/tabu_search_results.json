@@ -1,0 +1,43 @@
+{
+  "solver": "Tabu Search",
+  "overall": {
+    "total_cost": 937.0283380321134,
+    "waiting_time": 0.0,
+    "cvr": 0.0,
+    "feasibility": 1.0,
+    "runtime": 1.2153419256210327,
+    "robustness": 0.0
+  },
+  "tsp_tw": {
+    "total_cost": 937.0283380321134,
+    "waiting_time": 0.0,
+    "cvr": 0.0,
+    "feasibility": 1.0,
+    "runtime": 1.2153419256210327,
+    "robustness": 0.0
+  },
+  "by_size": {
+    "small": {
+      "feasibility": 1.0,
+      "cost": 937.0283380321134,
+      "cvr": 0.0,
+      "runtime": 1.2153419256210327
+    }
+  },
+  "detailed": [
+    {
+      "problem": "tsp_tw_10",
+      "size": 10,
+      "type": "",
+      "metrics": {
+        "total_cost": 937.0283380321134,
+        "waiting_time": 0.0,
+        "cvr": 0.0,
+        "feasibility": 1.0,
+        "runtime": 1.2153419256210327,
+        "robustness": 0.0
+      },
+      "problem_type": "tsp_tw"
+    }
+  ]
+}
