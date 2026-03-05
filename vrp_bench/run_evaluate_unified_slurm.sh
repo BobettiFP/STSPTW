@@ -8,7 +8,8 @@
 #
 # Run unified TSP-TW evaluation (evaluate_unified.py): npz or torch format.
 # Submit from repo root: sbatch vrp_bench/run_evaluate_unified_slurm.sh [npz|torch]
-# Optional: RUN=YYYY-MM-DD_HH-MM-SS sbatch vrp_bench/run_evaluate_unified_slurm.sh torch
+# Optional env: RUN=YYYY-MM-DD_HH-MM-SS SIZES="10 50 100" MAX_INSTANCES=20
+# Example: SIZES="10 50 100" MAX_INSTANCES=20 sbatch vrp_bench/run_evaluate_unified_slurm.sh npz
 # Output/error in submission dir. Results: vrp_bench/eval_results/<run>_<format>/
 
 set -e
@@ -39,17 +40,14 @@ fi
 
 FORMAT="${1:-npz}"
 SIZES="${SIZES:-}"
+MAX_INSTANCES="${MAX_INSTANCES:-}"
 
-if [ -n "${RUN:-}" ]; then
-  if [ -n "$SIZES" ]; then
-    python evaluate_unified.py --format "$FORMAT" --run "$RUN" --sizes $SIZES
-  else
-    python evaluate_unified.py --format "$FORMAT" --run "$RUN"
-  fi
-else
-  if [ -n "$SIZES" ]; then
-    python evaluate_unified.py --format "$FORMAT" --sizes $SIZES
-  else
-    python evaluate_unified.py --format "$FORMAT"
-  fi
-fi
+build_args() {
+  local args="--format $FORMAT"
+  [ -n "$RUN" ] && args="$args --run $RUN"
+  [ -n "$SIZES" ] && args="$args --sizes $SIZES"
+  [ -n "$MAX_INSTANCES" ] && args="$args --max-instances $MAX_INSTANCES"
+  echo "$args"
+}
+
+python evaluate_unified.py $(build_args)

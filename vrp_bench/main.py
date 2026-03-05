@@ -43,6 +43,13 @@ def main():
         default=None,
         help="Node sizes: one int (e.g. 10000) or list (e.g. 10 20 50). Default: 10,20,30,40,50",
     )
+    parser.add_argument(
+        "--solver",
+        type=str,
+        choices=["nn2opt", "tabu", "aco", "or-tools", "all"],
+        default="all",
+        help="Solver to run: nn2opt, tabu, aco, or-tools, or all (default: all)",
+    )
     args = parser.parse_args()
     sizes = args.sizes if args.sizes else [10, 20, 30, 40, 50]
 
@@ -69,13 +76,13 @@ def main():
             sys.exit(1)
         print("Skipping dataset generation (--skip-generate).\n")
 
-    print("Step 2: Running evaluation (paper protocol: 10 instances, 1 realization)...")
+    print("Step 2: Running evaluation ({} instances per size, 1 realization)...".format(args.num_instances))
     if args.format == "torch":
         from evaluate_unified import main as evaluate_main
-        evaluate_main(run=tsptw_run, format="torch", sizes=sizes)
+        evaluate_main(run=tsptw_run, format="torch", sizes=sizes, max_instances=args.num_instances)
     else:
         from eval import main as eval_main
-        eval_main(tsptw_run=tsptw_run, sizes=sizes)
+        eval_main(tsptw_run=tsptw_run, sizes=sizes, max_instances_per_file=args.num_instances, solver=args.solver)
 
 
 if __name__ == "__main__":

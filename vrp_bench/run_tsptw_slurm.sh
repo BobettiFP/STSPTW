@@ -10,6 +10,8 @@
 # Submit from repo root: sbatch vrp_bench/run_tsptw_slurm.sh [options]
 # Example (single size): sbatch vrp_bench/run_tsptw_slurm.sh --sizes 10000
 # Example (multiple):   sbatch vrp_bench/run_tsptw_slurm.sh --sizes 10 20 50
+# Example (10,50,100 x 20): sbatch vrp_bench/run_tsptw_slurm.sh --sizes 10 50 100 --num-instances 20
+# Example (n=100 x 10k, 2h): sbatch --time=02:00:00 vrp_bench/run_tsptw_slurm.sh --sizes 100 --num-instances 10000 --solver nn2opt
 # Output/error go to submission directory. Results: vrp_bench/eval_results/<timestamp>/, vrp_bench/data/tsp_tw/<timestamp>/
 
 set -e

@@ -13,9 +13,11 @@ from or_tools_solver import ORToolsSolver, OR_TOOLS_AVAILABLE
 from vrp_evaluation import VRPEvaluator
 
 
-def main(tsptw_run=None, sizes=None):
+def main(tsptw_run=None, sizes=None, max_instances_per_file=None, solver="all"):
     """Main function for VRP solver evaluation with comprehensive LaTeX table generation.
-    sizes: list of node sizes to evaluate (default [10, 20, 30, 40, 50])."""
+    sizes: list of node sizes to evaluate (default [10, 20, 30, 40, 50]).
+    max_instances_per_file: max instances to evaluate per size (default 15).
+    solver: which solver to run: nn2opt, tabu, aco, or-tools, or all (default: all)."""
     print("=" * 80)
     print("REALISTIC VRP SOLVER TESTING - NN+2OPT, TABU SEARCH, ACO, AND OR-TOOLS")
     print("=" * 80)
@@ -33,13 +35,13 @@ def main(tsptw_run=None, sizes=None):
     np.random.seed(PAPER_SEED)
     random.seed(PAPER_SEED)
 
-    # Local run: node sizes from sizes arg or default 10, 20, 30, 40, 50; 15 instances each; 1 realization
+    # Local run: node sizes from sizes arg or default 10, 20, 30, 40, 50; instances per size from arg or 15; 1 realization
     if sizes is None:
         sizes = [10, 20, 30, 40, 50]
     config = {
         "base_path": os.path.join(os.path.dirname(__file__), "data") + os.sep,
         "test_sizes": sizes,
-        "max_instances_per_file": 15,
+        "max_instances_per_file": max_instances_per_file if max_instances_per_file is not None else 15,
         "num_realizations": 1,
         "use_paper_protocol": False,
     }
@@ -60,12 +62,18 @@ def main(tsptw_run=None, sizes=None):
     results = {}
     
     # Define all solvers
-    solvers = [
+    all_solvers = [
         (NN2optSolver, "NN+2opt"),
         (TabuSearchSolver, "Tabu Search"),
         (ACOSolver, "ACO"),
         (ORToolsSolver, solver_name)
     ]
+    solver_map = {"nn2opt": 0, "tabu": 1, "aco": 2, "or-tools": 3}
+    if solver == "all":
+        solvers = all_solvers
+    else:
+        idx = solver_map.get(solver)
+        solvers = [all_solvers[idx]] if idx is not None else all_solvers
     
     # Test each solver
     for solver_class, name in solvers:

@@ -77,6 +77,7 @@ class VRPEvaluator:
                         data = np.load(data_path, allow_pickle=True)
                         data_dict = self._convert_to_dict(data)
 
+                        problem_type = "tsp_tw" if "tsp_tw" in self.problems[i] else ("twcvrp" if "twcvrp" in self.problems[i] else "cvrp")
                         # For TSP-TW problems, ignore dynamic appear times completely
                         # (all nodes are assumed to exist from time 0). Older datasets
                         # may still include an 'appear_times' key; drop it so solvers
@@ -98,7 +99,6 @@ class VRPEvaluator:
                         avg_results, instance_results = solver.solve_all_instances(actual_realizations)
                         
                         # Store results (problem = human-readable id e.g. tsp_tw_10)
-                        problem_type = "tsp_tw" if "tsp_tw" in self.problems[i] else ("twcvrp" if "twcvrp" in self.problems[i] else "cvrp")
                         problem_id = f"tsp_tw_{size}" if problem_type == "tsp_tw" else self.problems[i]
                         result_entry = {
                             "problem": problem_id,
